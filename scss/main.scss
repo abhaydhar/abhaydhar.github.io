@@ -1,0 +1,321 @@
+
+$default-font: 'open_sansregular';
+$body-color: #4553ff;
+$white-color: #ffffff;
+$light-blue-color: #6772e5;
+$light-grey-color: #6b7c93;
+$grey-color: #8898aa;
+
+@mixin mobile-device {
+  @media only screen 
+    and (min-device-width: 320px) 
+    and (max-device-width: 480px)
+    and (-webkit-min-device-pixel-ratio: 2)
+    and (orientation: portrait) {
+        @content;
+    }
+}
+@mixin tablet-device {
+  @media only screen 
+	and (min-device-width: 768px) 
+	and (max-device-width: 1024px) 
+	and (-webkit-min-device-pixel-ratio: 1) {
+        @content;
+    }
+}
+
+@mixin inlineBlock($width, $height) {
+  display: inline-block;
+  width: $width;
+  height: $height;
+}
+
+@mixin iconBefore($url) {
+  &:before {
+    content: '';
+    background: url($url) no-repeat;
+    background-size: cover;
+    @include inlineBlock(100%, 100%);
+  };
+}
+@font-face {
+	font-family: $default-font;
+	src: url('../fonts/opensans-regular-webfont.woff2') format("woff2"), 
+	   url('../fonts/opensans-regular-webfont.woff') format("woff");
+	font-weight: normal;
+	font-style: normal;
+}
+
+body {
+	background-color: $body-color;
+	font-family: $default-font;
+}
+
+nav {
+	position: relative;
+	display: flex;
+	.logo {
+		  @include inlineBlock(50px, 20px);
+	    margin: 30px 25px;
+	    @include mobile-device {
+				margin: 15px 10px;
+		  }
+    @include iconBefore('../images/svg/logo.svg');
+	}
+	.nav-root {
+		display: block;
+		@include mobile-device {
+			display: none;
+		}
+	}
+	.nav-root-mobile{
+		display: none;
+		@include mobile-device {
+			display: block;
+		}
+	}
+}
+
+
+.navbar-menu {
+	font-size: 17px;
+	font-weight: 500;
+	width: 80%;
+	margin: 0 auto;
+	display: flex;
+	list-style: none;
+	text-transform: capitalize;
+	color: $white-color;
+	@include tablet-device {
+		padding: 0;
+	}
+	> li {
+	    padding: 30px 30px;
+	    position: relative;
+    	&:hover {
+	      	color: hsla(0, 0%, 100%, 0.5);
+	      	.dropdown-menu {
+		        // animation: flipOut 0.4s ease-in forwards;
+		        // animation: fadeInLeft 0.4s ease-in forwards;
+		        transform-origin: 50% 0;
+		        opacity: 1;
+		        visibility: visible;
+	      	}
+		}
+  	}
+}
+
+.dropdown-menu {
+	list-style: none;
+	padding: 0;
+	position: absolute;
+	opacity: 0;
+	visibility: hidden;
+	padding: 20px 35px;
+	background-color: $white-color;
+	border-radius: 4px;
+	width: 465px;
+	margin-top:20px;
+	@include mobile-device {
+    	opacity: 1;
+	    visibility: visible;
+	}
+	@include tablet-device {
+		padding: 20px 26px;
+	    width: 280px;
+	}
+	&:before {
+		content: '';
+	    width: 0;
+	    height: 0;
+	    border-left: 8px solid transparent;
+	    border-right: 8px solid transparent;
+	    border-bottom: 8px solid $white-color;
+	    position: absolute;
+	    top: -8px;
+	}
+  	li {
+	    color: $light-blue-color;
+	    padding: 0;
+    	a {
+      		text-decoration: none;
+      		&:hover {
+        		color: hsla(0, 0%, 100%, 0.5);
+      		}
+    	}
+  	}
+}
+
+
+.link-container {
+  	display: flex;
+  	margin: 18px 0;	    
+  	.icon-background {
+		@include inlineBlock(48px, 48px);
+		@include mobile-device {
+			width: 18px;
+			height: 18px;
+		}
+	}
+	.link-content {
+	  	margin-left: 20px;
+	  	@include mobile-device {
+  			align-self: center;
+  			margin-left: 10px;
+	  	}
+	  	.link-title {
+			font-size: 16px;
+			font-weight: 800;
+			color: $light-blue-color;
+			margin: 0;
+			@include mobile-device {
+				font-size: 12px;
+	  			text-transform: capitalize;
+		  	}
+		}
+		.link-sub-title {
+			font-size: 15px;
+			font-weight: 400;
+			color: $light-grey-color;
+			margin-top: 5px;
+			@include mobile-device {
+				display: none;
+			}
+			@include tablet-device {
+				font-size: 13px;
+			}
+		}
+	}
+}
+
+
+
+@include mobile-device {
+	.hamburger-icon {
+		  @include inlineBlock(20px, 20px);
+	    position: absolute;
+	    right: 8px;
+	    top: 15px;
+		@include iconBefore('../images/svg/iconfinder_menu-alt.svg');
+	}
+	
+	.dropdown-root {
+		background-color: $white-color;
+		border-radius: 5px;
+	    position: absolute;
+	    top: 5px;
+	    width: 94vw;
+	    left: -9px;
+	    margin: 10px;
+	    display: none;
+	    // animation: mobileFadeIn 0.4s ease-in forwards;
+		&.open {
+			display: block;
+		}
+	    .close-popup {
+			  @include inlineBlock(20px, 20px);
+		    position: absolute;
+		    right: 8px;
+		    top: 8px;
+			@include iconBefore('../images/svg/iconfinder_cross.svg');
+		}
+	   	.popup-title {
+			margin: 18px 15px 0;
+			font-size: 12px;
+		    font-weight: 600;
+		    letter-spacing: .025em;
+		    color: $grey-color;
+		    text-transform: uppercase;
+		}
+	    .dropdown-menu {
+	    	position: static;
+	    	padding: 0 15px;
+	    	margin-top: 0;
+	    	width: 50%;
+			  display: inline-block;
+	    	&:before {
+				  display: none;
+	    	}
+	    }
+	    .isProduct {
+		   	.link-title {
+				font-size: 14px;
+			}
+	    }
+	    .notProduct {
+	    	display: inline-block;
+		    float: left;
+		    border-top: 1px solid #f3f1f1;
+		    border-radius: 0;
+		    width: 40%;
+		    .icon-background {
+		    	display: none;
+		    }
+		   	.link-title {
+				color: $light-blue-color;
+				font-size: 12px;
+				font-weight: 400;
+				text-transform: capitalize;
+			}
+	    }
+	}
+}
+
+
+@keyframes flipOut {
+	0% {
+    	opacity: 0;
+    	transform: perspective(0px) rotateX(-20deg);
+  	}
+
+  	to {
+    	opacity: 1;
+    	transform: perspective(400px) rotateX(0deg);
+  	}
+}
+
+@keyframes fadeInLeft {
+  	0% {
+    	opacity: 0;
+    	left: -80%;
+  	}
+
+  	to {
+    	opacity: 1;
+    	left: 0;
+  	}
+}
+@keyframes mobileFadeIn {
+	0% {
+    	opacity: 0;
+  	}
+
+  	to {
+    	opacity: 1;
+  	}
+}
+@keyframes mobileFadeOut {
+	0% {
+    	opacity: 1;
+  	}
+
+  	to {
+    	opacity: 0;
+  	}
+}
+
+
+.flipOut {
+	animation: flipOut 0.4s ease-in forwards;
+}
+
+.fadeInLeft {
+	animation: fadeInLeft 0.4s ease-in forwards;
+}
+.mobileFadeIn {
+	animation: mobileFadeIn 0.4s ease-in forwards;
+}
+
+.mobileFadeOut {
+	animation: mobileFadeOut 0.4s ease-in forwards;
+}
